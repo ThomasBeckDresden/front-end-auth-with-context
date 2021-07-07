@@ -25,7 +25,7 @@ const Copyright = () => {
   );
 };
 
-const Authentication = () => {
+const Authentication = ({ onAuth, onSetCredentials }) => {
   const useStyles = makeStyles((theme) => ({
     root: {
       height: "100vh",
@@ -80,6 +80,7 @@ const Authentication = () => {
               required
               fullWidth
               id="username"
+              onChange={(e) => onSetCredentials(e)}
               label="Username"
               name="username"
               autoFocus
@@ -90,12 +91,13 @@ const Authentication = () => {
               required
               fullWidth
               name="password"
+              onChange={(e) => onSetCredentials(e)}
               label="Password"
               type="password"
               id="password"
             />
             <Button
-              onClick={() => {}}
+              onClick={() => onAuth()}
               fullWidth
               variant="contained"
               color="primary"

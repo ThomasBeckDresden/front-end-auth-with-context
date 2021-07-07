@@ -15,6 +15,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { Link as RouterLink, useHistory } from "react-router-dom";
+import { logout } from "../utils/auth";
 
 const Copyright = () => {
   return (
@@ -145,187 +147,183 @@ const footers = [
   },
 ];
 
-const Admin = ({ onLogout }) => {
+const Admin = ({ me }) => {
+  console.log({ me });
   const classes = useStyles();
+  const history = useHistory();
 
-  const [user, setUser] = useState();
+  // const [user, setUser] = useState();
 
   return (
     <>
-        <React.Fragment>
-          <CssBaseline />
-          <AppBar
-            position="static"
-            color="default"
-            elevation={0}
-            className={classes.appBar}
-          >
-            <Toolbar className={classes.toolbar}>
-              <Typography
-                variant="h6"
-                color="inherit"
-                noWrap
-                className={classes.toolbarTitle}
-              >
-                Electric Sheep
-              </Typography>
-              <nav>
-                <Link
-                  variant="button"
-                  color="textPrimary"
-                  href="#"
-                  className={classes.link}
-                >
-                  Features
-                </Link>
-                <Link
-                  variant="button"
-                  color="textPrimary"
-                  href="#"
-                  className={classes.link}
-                >
-                  Enterprise
-                </Link>
-                <Link
-                  variant="button"
-                  color="textPrimary"
-                  href="#"
-                  className={classes.link}
-                >
-                  Support
-                </Link>
-              </nav>
-              <Button
-                href="#"
-                color="secondary"
-                variant="contained"
+      <React.Fragment>
+        <CssBaseline />
+        <AppBar
+          position="static"
+          color="default"
+          elevation={0}
+          className={classes.appBar}
+        >
+          <Toolbar className={classes.toolbar}>
+            <Typography
+              variant="h6"
+              color="inherit"
+              noWrap
+              className={classes.toolbarTitle}
+            >
+              Electric Sheep
+            </Typography>
+            <nav>
+              <Link
+                variant="button"
+                color="textPrimary"
+                // href="#"
                 className={classes.link}
-                onClick={() => onLogout()}
               >
-                Logout
-              </Button>
-            </Toolbar>
-          </AppBar>
-          <Container
-            maxWidth="sm"
-            component="main"
-            className={classes.heroContent}
+                <RouterLink to="/features">Features</RouterLink>
+              </Link>
+              <Link
+                variant="button"
+                color="textPrimary"
+                // href="#"
+                className={classes.link}
+              >
+                Enterprise
+              </Link>
+              <Link
+                variant="button"
+                color="textPrimary"
+                href="#"
+                className={classes.link}
+              >
+                Support
+              </Link>
+            </nav>
+            <Button
+              href="#"
+              color="secondary"
+              variant="contained"
+              className={classes.link}
+              onClick={() => logout(history)}
+            >
+              Logout
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <Container
+          maxWidth="sm"
+          component="main"
+          className={classes.heroContent}
+        >
+          <Typography
+            component="h1"
+            variant="h2"
+            align="center"
+            color="textPrimary"
+            gutterBottom
           >
-            <Typography
-              component="h1"
-              variant="h2"
-              align="center"
-              color="textPrimary"
-              gutterBottom
-            >
-              Welcome back {user && `${user.username.charAt(0).toUpperCase() + user.username.slice(1)}`}
-            </Typography>
-            <Typography
-              variant="h5"
-              align="center"
-              color="textSecondary"
-              component="p"
-            >
-              . Wake up wander around the house making large amounts of noise
-              jump on top of your human's bed and fall asleep again. Stick butt
-              in face tweeting a baseball. Cat ass trophy pounce on unsuspecting
-              person so pounce on unsuspecting person lick the curtain just to
-              be annoying. Purr as loud as possible.
-            </Typography>
-          </Container>
-          <Container maxWidth="md" component="main">
-            <Grid container spacing={5} alignItems="flex-end">
-              {tiers.map((tier) => (
-                <Grid
-                  item
-                  key={tier.title}
-                  xs={12}
-                  sm={tier.title === "Enterprise" ? 12 : 6}
-                  md={4}
-                >
-                  <Card>
-                    <CardHeader
-                      title={tier.title}
-                      subheader={tier.subheader}
-                      titleTypographyProps={{ align: "center" }}
-                      subheaderTypographyProps={{ align: "center" }}
-                      action={tier.title === "Pro" ? <StarIcon /> : null}
-                      className={classes.cardHeader}
-                    />
-                    <CardContent>
-                      <div className={classes.cardPricing}>
-                        <Typography
-                          component="h2"
-                          variant="h3"
-                          color="textPrimary"
-                        >
-                          ${tier.price}
-                        </Typography>
-                        <Typography variant="h6" color="textSecondary">
-                          /mo
-                        </Typography>
-                      </div>
-                      <ul>
-                        {tier.description.map((line) => (
-                          <Typography
-                            component="li"
-                            variant="subtitle1"
-                            align="center"
-                            key={line}
-                          >
-                            {line}
-                          </Typography>
-                        ))}
-                      </ul>
-                    </CardContent>
-                    <CardActions>
-                      <Button
-                        fullWidth
-                        variant={tier.buttonVariant}
-                        color="primary"
+            Welcome back{" "}
+            {me &&
+              `${me.username.charAt(0).toUpperCase() + me.username.slice(1)}`}
+          </Typography>
+          <Typography
+            variant="h5"
+            align="center"
+            color="textSecondary"
+            component="p"
+          >
+            . Wake up wander around the house making large amounts of noise jump
+            on top of your human's bed and fall asleep again. Stick butt in face
+            tweeting a baseball. Cat ass trophy pounce on unsuspecting person so
+            pounce on unsuspecting person lick the curtain just to be annoying.
+            Purr as loud as possible.
+          </Typography>
+        </Container>
+        <Container maxWidth="md" component="main">
+          <Grid container spacing={5} alignItems="flex-end">
+            {tiers.map((tier) => (
+              <Grid
+                item
+                key={tier.title}
+                xs={12}
+                sm={tier.title === "Enterprise" ? 12 : 6}
+                md={4}
+              >
+                <Card>
+                  <CardHeader
+                    title={tier.title}
+                    subheader={tier.subheader}
+                    titleTypographyProps={{ align: "center" }}
+                    subheaderTypographyProps={{ align: "center" }}
+                    action={tier.title === "Pro" ? <StarIcon /> : null}
+                    className={classes.cardHeader}
+                  />
+                  <CardContent>
+                    <div className={classes.cardPricing}>
+                      <Typography
+                        component="h2"
+                        variant="h3"
+                        color="textPrimary"
                       >
-                        {tier.buttonText}
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Container>
-          <Container
-            maxWidth="md"
-            component="footer"
-            className={classes.footer}
-          >
-            <Grid container spacing={4} justify="space-evenly">
-              {footers.map((footer) => (
-                <Grid item xs={6} sm={3} key={footer.title}>
-                  <Typography variant="h6" color="textPrimary" gutterBottom>
-                    {footer.title}
-                  </Typography>
-                  <ul>
-                    {footer.description.map((item) => (
-                      <li key={item}>
-                        <Link
-                          href="#"
+                        ${tier.price}
+                      </Typography>
+                      <Typography variant="h6" color="textSecondary">
+                        /mo
+                      </Typography>
+                    </div>
+                    <ul>
+                      {tier.description.map((line) => (
+                        <Typography
+                          component="li"
                           variant="subtitle1"
-                          color="textSecondary"
+                          align="center"
+                          key={line}
                         >
-                          {item}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </Grid>
-              ))}
-            </Grid>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
-          </Container>
-        </React.Fragment>
+                          {line}
+                        </Typography>
+                      ))}
+                    </ul>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      fullWidth
+                      variant={tier.buttonVariant}
+                      color="primary"
+                    >
+                      {tier.buttonText}
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+        <Container maxWidth="md" component="footer" className={classes.footer}>
+          <Grid container spacing={4} justify="space-evenly">
+            {footers.map((footer) => (
+              <Grid item xs={6} sm={3} key={footer.title}>
+                <Typography variant="h6" color="textPrimary" gutterBottom>
+                  {footer.title}
+                </Typography>
+                <ul>
+                  {footer.description.map((item) => (
+                    <li key={item}>
+                      <Link href="#" variant="subtitle1" color="textSecondary">
+                        {item}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </Grid>
+            ))}
+          </Grid>
+          <Box mt={5}>
+            <Copyright />
+          </Box>
+        </Container>
+      </React.Fragment>
     </>
   );
-}
+};
 
-export default Admin
+export default Admin;
