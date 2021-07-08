@@ -73,7 +73,14 @@ const Authentication = ({ onAuth, onSetCredentials }) => {
           <Typography component="h1" variant="h5">
             Sign In
           </Typography>
-          <form className={classes.form} noValidate>
+          <form
+            className={classes.form}
+            noValidate
+            onSubmit={(e) => {
+              e.preventDefault();
+              onAuth();
+            }}
+          >
             <TextField
               variant="outlined"
               margin="normal"
@@ -97,7 +104,10 @@ const Authentication = ({ onAuth, onSetCredentials }) => {
               id="password"
             />
             <Button
-              onClick={() => onAuth()}
+              // You can listen to a click event on the button itself
+              // or to the submit event of the form
+              // onClick={() => onAuth()}
+              type="submit"
               fullWidth
               variant="contained"
               color="primary"

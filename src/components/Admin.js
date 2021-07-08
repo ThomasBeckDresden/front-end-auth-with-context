@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -14,8 +14,8 @@ import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { Link as RouterLink, useHistory } from "react-router-dom";
+// import CircularProgress from "@material-ui/core/CircularProgress";
+import { useHistory } from "react-router-dom";
 import { logout } from "../utils/auth";
 
 const Copyright = () => {
@@ -149,10 +149,9 @@ const footers = [
 
 const Admin = ({ me }) => {
   console.log({ me });
+
   const classes = useStyles();
   const history = useHistory();
-
-  // const [user, setUser] = useState();
 
   return (
     <>
@@ -177,15 +176,15 @@ const Admin = ({ me }) => {
               <Link
                 variant="button"
                 color="textPrimary"
-                // href="#"
+                href="#"
                 className={classes.link}
               >
-                <RouterLink to="/features">Features</RouterLink>
+                Features
               </Link>
               <Link
                 variant="button"
                 color="textPrimary"
-                // href="#"
+                href="#"
                 className={classes.link}
               >
                 Enterprise
@@ -232,11 +231,17 @@ const Admin = ({ me }) => {
             color="textSecondary"
             component="p"
           >
-            . Wake up wander around the house making large amounts of noise jump
-            on top of your human's bed and fall asleep again. Stick butt in face
-            tweeting a baseball. Cat ass trophy pounce on unsuspecting person so
-            pounce on unsuspecting person lick the curtain just to be annoying.
-            Purr as loud as possible.
+            Non ipsum qui mollit do aliqua do incididunt. Sunt sint sit quis
+            excepteur minim officia nulla enim est eiusmod irure. Id est elit et
+            ullamco commodo fugiat exercitation esse laborum cillum. Quis aute
+            tempor ut ea nostrud anim non dolor sit reprehenderit culpa ut
+            veniam magna. Aliqua voluptate tempor tempor ut id consectetur
+            cillum aliqua proident. Aute ipsum nostrud cupidatat id magna ut
+            sunt velit non. Aute velit Lorem nostrud dolor consectetur enim sunt
+            culpa sint. Qui esse minim tempor voluptate. Aute ullamco dolor aute
+            fugiat non ipsum. Proident excepteur nisi nisi anim aliqua eiusmod
+            fugiat ullamco est et irure cupidatat magna nisi. Excepteur nostrud
+            incididunt tempor Lorem.
           </Typography>
         </Container>
         <Container maxWidth="md" component="main">

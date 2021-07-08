@@ -12,9 +12,14 @@ import { getToken } from "./utils/auth";
 
 const App = () => {
   const history = useHistory();
+
+  // State used to hold the login/password of the user
   const [credentials, setCredentials] = useState();
+
+  // State used to hold the context of the logged in user
   const [me, setMe] = useState();
 
+  // Function to handle both input fields in Authentication.js
   const handleSetCredentials = (e) => {
     setCredentials((prevCredentials) => ({
       ...prevCredentials,
@@ -22,24 +27,40 @@ const App = () => {
     }));
   };
 
+  // We call this function when the user clicks on
+  // sign in, triggering the login function in our auth utilities
+  // We receive true or undefined, which we store/check with isAuthenticated
   const handleAuthentication = async () => {
     const isAuthenticated = await login(credentials);
     if (isAuthenticated) {
+      toast.success("🦄 Login success!");
+      // When the user successfully logs in, we ask the back-end
+      // for some more context about the user; if we get some, we push the
+      // user to a specific part of the app
       getContext();
     }
-    // else {
-    //   toast.error("🦄 Authentication failed!");
-    // }
   };
 
   const getContext = useCallback(async () => {
     try {
+      // This route is dedicated to getting 'context' about the user
+      // In the back-end, you can decide what's useful to send back
+      // to the front-end at this point
+      // (eg: username, id, email, other info you need to use/display later on)
+      // This route does **not** have to be called /me in the back-end
+      // The state does **not** have to be called me in the front-end
       const { data } = await client.get("/auth/me");
       if (data) {
+        // if we get some data back at this point; it means the token
+        // with which we made the query was valid, and the user
+        // is correctly logged in
         console.log(data);
+
+        // We set the user context in a state that we can pass down the line
         setMe(data);
+
+        // We move the user where we want
         history.push("/admin");
-        toast.success("🦄 Welcome back!");
       }
     } catch (e) {
       console.log("User not logged in:", e.message);
@@ -47,6 +68,10 @@ const App = () => {
   }, [history]);
 
   useEffect(() => {
+    // When the user arrives in the app, we check if a token is
+    // on the machine; and if so, we try to get some context about the user
+    // Being already authenticated (eg: having a valid token) would
+    // push the user to a specific route instead of staying on the authentication page
     if (getToken()) {
       getContext();
     }
@@ -62,14 +87,6 @@ const App = () => {
           />
         </Route>
         <ProtectedRoute path="/admin" component={Admin} me={me} />
-        <ProtectedRoute
-          path="/features"
-          component={() => <h1>Features</h1>}
-          me={me}
-        />
-        <Route path="/enterprise">
-          <h1>Enterprise</h1>
-        </Route>
         <Route path="/">
           <Redirect to="/auth" />
         </Route>
