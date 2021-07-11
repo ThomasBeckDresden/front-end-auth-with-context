@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,6 +11,8 @@ import OfflineBoltIcon from "@material-ui/icons/OfflineBolt";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import sheep from "../pics/sheep.jpg";
+import { handleAuthentication } from "../utils/auth";
+import { useUserContext } from "../context/UserContext";
 
 const Copyright = () => {
   return (
@@ -26,6 +28,16 @@ const Copyright = () => {
 };
 
 const Authentication = () => {
+  const [credentials, setCredentials] = useState();
+  const { getContext } = useUserContext();
+
+  const handleSetCredentials = (e) => {
+    setCredentials((prevCredentials) => ({
+      ...prevCredentials,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
   const useStyles = makeStyles((theme) => ({
     root: {
       height: "100vh",
@@ -73,13 +85,21 @@ const Authentication = () => {
           <Typography component="h1" variant="h5">
             Sign In
           </Typography>
-          <form className={classes.form} noValidate>
+          <form
+            className={classes.form}
+            noValidate
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleAuthentication(credentials, getContext);
+            }}
+          >
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
               id="username"
+              onChange={(e) => handleSetCredentials(e)}
               label="Username"
               name="username"
               autoFocus
@@ -90,12 +110,16 @@ const Authentication = () => {
               required
               fullWidth
               name="password"
+              onChange={(e) => handleSetCredentials(e)}
               label="Password"
               type="password"
               id="password"
             />
             <Button
-              onClick={() => {}}
+              // You can listen to a click event on the button itself
+              // or to the submit event of the form
+              // onClick={() => onAuth()}
+              type="submit"
               fullWidth
               variant="contained"
               color="primary"

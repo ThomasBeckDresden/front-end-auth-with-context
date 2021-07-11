@@ -2,9 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter } from "react-router-dom";
+import Toaster from "./components/Toaster";
 
 ReactDOM.render(
-    <App />,
+  <BrowserRouter>
+    <App />
+    <Toaster />
+  </BrowserRouter>,
   document.getElementById("root")
 );
 
