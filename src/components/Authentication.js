@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,6 +11,8 @@ import OfflineBoltIcon from "@material-ui/icons/OfflineBolt";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import sheep from "../pics/sheep.jpg";
+import { handleAuthentication } from "../utils/auth";
+import { useUserContext } from "../context/UserContext";
 
 const Copyright = () => {
   return (
@@ -25,7 +27,17 @@ const Copyright = () => {
   );
 };
 
-const Authentication = ({ onAuth, onSetCredentials }) => {
+const Authentication = () => {
+  const [credentials, setCredentials] = useState();
+  const { getContext } = useUserContext();
+
+  const handleSetCredentials = (e) => {
+    setCredentials((prevCredentials) => ({
+      ...prevCredentials,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
   const useStyles = makeStyles((theme) => ({
     root: {
       height: "100vh",
@@ -78,7 +90,7 @@ const Authentication = ({ onAuth, onSetCredentials }) => {
             noValidate
             onSubmit={(e) => {
               e.preventDefault();
-              onAuth();
+              handleAuthentication(credentials, getContext);
             }}
           >
             <TextField
@@ -87,7 +99,7 @@ const Authentication = ({ onAuth, onSetCredentials }) => {
               required
               fullWidth
               id="username"
-              onChange={(e) => onSetCredentials(e)}
+              onChange={(e) => handleSetCredentials(e)}
               label="Username"
               name="username"
               autoFocus
@@ -98,7 +110,7 @@ const Authentication = ({ onAuth, onSetCredentials }) => {
               required
               fullWidth
               name="password"
-              onChange={(e) => onSetCredentials(e)}
+              onChange={(e) => handleSetCredentials(e)}
               label="Password"
               type="password"
               id="password"

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -16,7 +16,7 @@ import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 // import CircularProgress from "@material-ui/core/CircularProgress";
 import { useHistory } from "react-router-dom";
-import UserContext from "../context/UserContext";
+import { useUserContext } from "../context/UserContext";
 import { logout } from "../utils/auth";
 
 const Copyright = () => {
@@ -149,7 +149,7 @@ const footers = [
 ];
 
 const Admin = () => {
-  const { me, setMe } = useContext(UserContext);
+  const { me, setMe } = useUserContext();
 
   const classes = useStyles();
   const history = useHistory();
