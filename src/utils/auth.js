@@ -15,8 +15,9 @@ const setToken = (data) =>
 // Delete a cookie:
 const removeToken = () => Cookies.remove(`${REACT_APP_APP_NAME}-auth-token`);
 
-const logout = (history) => {
+const logout = (history, setMe) => {
   removeToken();
+  setMe();
   history.push("/auth");
 };
 

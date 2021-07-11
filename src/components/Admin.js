@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -16,6 +16,7 @@ import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 // import CircularProgress from "@material-ui/core/CircularProgress";
 import { useHistory } from "react-router-dom";
+import UserContext from "../context/UserContext";
 import { logout } from "../utils/auth";
 
 const Copyright = () => {
@@ -147,8 +148,8 @@ const footers = [
   },
 ];
 
-const Admin = ({ me }) => {
-  console.log({ me });
+const Admin = () => {
+  const { me, setMe } = useContext(UserContext);
 
   const classes = useStyles();
   const history = useHistory();
@@ -203,7 +204,7 @@ const Admin = ({ me }) => {
               color="secondary"
               variant="contained"
               className={classes.link}
-              onClick={() => logout(history)}
+              onClick={() => logout(history, setMe)}
             >
               Logout
             </Button>
